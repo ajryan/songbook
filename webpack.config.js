@@ -6,7 +6,9 @@ var AureliaWebpackPlugin = require('aurelia-webpack-plugin');
 var bundleOutputDir = './wwwroot/dist';
 module.exports = {
     resolve: { extensions: [ '.js', '.ts' ] },
-    entry: { 'app': 'aurelia-bootstrapper-webpack' }, // Note: The aurelia-webpack-plugin will add your app's modules to this bundle automatically
+    entry: { 
+        'app': 'aurelia-bootstrapper-webpack' // Note: The aurelia-webpack-plugin will add your app's modules to this bundle automatically
+    },
     output: {
         path: path.resolve(bundleOutputDir),
         publicPath: '/dist',

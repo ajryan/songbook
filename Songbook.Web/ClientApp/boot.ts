@@ -2,7 +2,9 @@ import { Aurelia } from 'aurelia-framework';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 
-declare const IS_DEV_BUILD: boolean; // The value is supplied by Webpack during the build
+// The value is supplied by Webpack during the build
+// TODO: use ASPNETCORE_ENVIRONMENT instead, then no longer need Global injection (this could be an issue on the template repo too)
+declare const IS_DEV_BUILD: boolean;
 
 export function configure(aurelia: Aurelia) {
     aurelia.use.standardConfiguration();

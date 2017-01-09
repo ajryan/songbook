@@ -4,6 +4,7 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 export class App {
     router: Router;
 
+    // TODO: auto-discover?
     configureRouter(config: RouterConfiguration, router: Router) {
         config.title = (<any>window).Globals.hostingEnvironment;
         config.map([{
@@ -27,6 +28,13 @@ export class App {
             moduleId: '../fetchdata/fetchdata',
             nav: true,
             title: 'Fetch data'
+        }, {
+          route: 'songs',
+          name: 'songs',
+          settings: { icon: 'music' },
+          moduleId: '../songs/songs',
+          nav: true,
+          title: 'Songs'
         }]);
 
         this.router = router;

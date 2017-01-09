@@ -33,6 +33,7 @@ module.exports = {
             manifest: require('./wwwroot/dist/vendor-manifest.json')
         }),
         new AureliaWebpackPlugin({
+            hot: true,
             root: path.resolve('./'),
             src: path.resolve('./ClientApp'),
             baseUrl: '/'

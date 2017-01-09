@@ -1,0 +1,12 @@
+wwwroot/dist/**
+ClientApp/dist/**
+
+# Workaround for https://github.com/aspnet/JavaScriptServices/issues/235
+!wwwroot/dist/_placeholder.txt
+!ClientApp/dist/_placeholder.txt
+
+/yarn.lock
+
+# Workaround for https://github.com/aspnet/JavaScriptServices/issues/235
+node_modules/**
+!node_modules/_placeholder.txt

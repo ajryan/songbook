@@ -7,21 +7,18 @@ import { inject } from 'aurelia-framework';
 
 @inject(HttpClient)
 export class Fetchdata {
-    public songs: Song[];
+    public songs: ISong[];
 
     constructor(http: HttpClient) {
-        http.fetch('/api/SampleData/WeatherForecasts')
-            .then(result => result.json() as Promise<WeatherForecast[]>)
+        http.fetch('/api/Songs/All')
+            .then(result => result.json() as Promise<ISong[]>)
             .then(data => {
-                this.forecasts = data;
+                this.songs = data;
             });
     }
 }
 
 // TODO: generate with typelite (or whatever is current). is there a webpack version?
-interface Song {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface ISong {
+    name: string;
 }

@@ -4,6 +4,9 @@ var webpack = require('webpack');
 var AureliaWebpackPlugin = require('aurelia-webpack-plugin');
 
 var bundleOutputDir = './wwwroot/dist';
+
+console.log("building for " + (isDevBuild ? "Development" : "Production"));
+
 module.exports = {
     resolve: { extensions: [ '.js', '.ts' ] },
     entry: { 

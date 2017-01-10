@@ -30,6 +30,8 @@ module.exports = {
             'aurelia-templating-router',
             'bootstrap',
             'bootstrap/dist/css/bootstrap.css',
+            'bootstrap-material-design/dist/css/bootstrap-material-design.css',
+            'bootstrap-material-design/dist/css/ripples.css',
             'jquery'
         ],
     },

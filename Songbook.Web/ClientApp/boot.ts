@@ -1,6 +1,7 @@
 import { Aurelia } from 'aurelia-framework';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
+import * as $ from 'jquery';
 
 // The value is supplied by Webpack during the build
 // TODO: use ASPNETCORE_ENVIRONMENT instead, then no longer need Global injection (this could be an issue on the template repo too)

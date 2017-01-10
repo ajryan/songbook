@@ -24,6 +24,7 @@ namespace Songbook.Controllers
         [HttpGet]
         public IEnumerable<Song> GetAll()
         {
+            System.Threading.Thread.Sleep(500);
             return _songList;
         }
 

@@ -9,13 +9,16 @@ import Song = Songbook.Core.Song;
 export class SongsList {
   public songs: Song[];
   public selectedId: number;
+  public isRequesting: boolean;
 
   constructor(ea: EventAggregator, http: HttpClient) {
     ea.subscribe(Messages.SongViewed, msg => this.select(msg.Song));
 
+    this.isRequesting = true;
     http.fetch('/api/Songs')
       .then(result => result.json() as Promise<Song[]>)
       .then(data => {
+        this.isRequesting = false;
         this.songs = data;
       });
   }

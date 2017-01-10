@@ -23,7 +23,8 @@ module.exports = {
             { test: /\.html$/, loader: 'html-loader' },
             { test: /\.css$/, loaders: [ 'style-loader', 'css-loader' ] },
             { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
-            { test: /\.json$/, loader: 'json-loader' }
+            { test: /\.json$/, loader: 'json-loader' },
+            { test: require.resolve('jquery'), loader: 'expose-loader?$!expose-loader?jQuery' }
         ]
     },
     plugins: [

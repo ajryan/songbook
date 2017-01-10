@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - @ViewData["HostingEnvironment"]</title>
 
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
         <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
     </head>
     <body>
@@ -15,6 +18,5 @@
         </script>
         @RenderBody()
         @RenderSection("scripts", required: false)
-        
     </body>
 </html>

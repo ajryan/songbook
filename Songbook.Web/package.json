@@ -19,6 +19,7 @@
     "aurelia-templating-resources": "^1.0.0",
     "aurelia-templating-router": "^1.0.0",
     "bootstrap": "^3.3.7",
+    "bootstrap-material-design": "^0.5.10",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.1"
   },

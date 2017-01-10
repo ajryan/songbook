@@ -7,18 +7,13 @@ import { inject } from 'aurelia-framework';
 
 @inject(HttpClient)
 export class Fetchdata {
-    public songs: ISong[];
+    public songs: Songbook.Core.Song[];
 
     constructor(http: HttpClient) {
         http.fetch('/api/Songs/All')
-            .then(result => result.json() as Promise<ISong[]>)
+            .then(result => result.json() as Promise<Songbook.Core.Song[]>)
             .then(data => {
                 this.songs = data;
             });
     }
-}
-
-// TODO: generate with typelite (or whatever is current). is there a webpack version?
-interface ISong {
-    name: string;
 }

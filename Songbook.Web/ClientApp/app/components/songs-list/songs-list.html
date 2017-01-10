@@ -1,0 +1,16 @@
+<template>
+    <require from="./song-list.css"></require>
+    <div class="panel panel-default">
+        <div class="panel-heading">Songs</div>
+        <div if.bind="!songs" class="panel-body">
+            <p><em>Loading...</em></p>
+        </div>
+        <ul if.bind="songs" class="list-group">
+            <li repeat.for="song of songs" class="list-group-item ${song.Id === $parent.selectedId ? 'active' : ''}">
+                <a href="#/songs/${song.Id}" click.delegate="$parent.select(song)">
+                    ${ song.Name }
+                </a>
+            </li>
+        </ul>
+    </div>
+</template>

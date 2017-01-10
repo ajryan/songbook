@@ -8,6 +8,7 @@
 namespace Songbook.Core {
 
 export interface Song {
+    Id: number;
     Name?: string;
     Lyrics?: Lyric[];
     Progressions?: Progression[];

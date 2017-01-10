@@ -1,0 +1,15 @@
+<template>
+    <h1>${ song.Name }</h1>
+
+    <p if.bind="!song"><em>Loading...</em></p>
+
+    <div if.bind="song">
+        <ul class="list-group">
+            <li repeat.for="lyric of song.Lyrics" class="list-group-item">
+                <h4 class="list-group-item-heading" textcontent.bind="lyric.Name" contenteditable="true"></h4>
+                <p class="list-group-item-text">${ lyric.Words }</p>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-success" click.delegate="save()">Save</button>
+    </div>
+</template>

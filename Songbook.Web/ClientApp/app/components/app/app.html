@@ -1,10 +1,17 @@
 <template>
-    <require from="../navmenu/navmenu.html"></require>
-    <require from="./app.css"></require>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <span class="glyphicon glyphicon-music"></span>
+                <span>Songwriter's Notebook</span>
+            </a>
+        </div>
+    </nav>
+    <require from="../songs-list/songs-list"></require>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3">
-                <navmenu router.bind="router"></navmenu>
+                <songs-list></songs-list>
             </div>
             <div class="col-sm-9 body-content">
                 <router-view></router-view>

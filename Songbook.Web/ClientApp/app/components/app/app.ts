@@ -15,20 +15,6 @@ export class App {
             nav: true,
             title: 'Home'
         }, {
-            route: 'counter',
-            name: 'counter',
-            settings: { icon: 'education' },
-            moduleId: '../counter/counter',
-            nav: true,
-            title: 'Counter'
-        }, {
-            route: 'fetch-data',
-            name: 'fetchdata',
-            settings: { icon: 'th-list' },
-            moduleId: '../fetchdata/fetchdata',
-            nav: true,
-            title: 'Fetch data'
-        }, {
           route: 'songs',
           name: 'songs',
           settings: { icon: 'music' },

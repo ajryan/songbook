@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace Songbook
 {
@@ -29,7 +30,9 @@ namespace Songbook
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +46,7 @@ namespace Songbook
                 app.UseDeveloperExceptionPage();
 
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
-                    HotModuleReplacement = true // Aurelia Webpack Plugin HMR currently has issues. Leave this set to false.
+                    HotModuleReplacement = false // Aurelia Webpack Plugin HMR currently has issues. Leave this set to false.
                 });
             }
             else

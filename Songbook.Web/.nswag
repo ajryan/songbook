@@ -1,0 +1,39 @@
+﻿{
+  "swaggerGenerator": {
+    "assemblyTypeToSwagger": {
+      "assemblyPath": "../Songbook.Core/bin/Debug/netstandard1.4/Songbook.Core.dll",
+      "classNames": [
+        "Songbook.Core.Song"
+      ],
+      "referencePaths": [],
+      "defaultPropertyNameHandling": "Default",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": true,
+      "generateKnownTypes": false,
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "swaggerToTypeScriptClient": {
+      "className": "{controller}Client",
+      "moduleName": "",
+      "namespace": "Songbook.Core",
+      "typeScriptVersion": 2.0,
+      "template": "JQueryCallbacks",
+      "promiseType": "Promise",
+      "dateTimeType": "Date",
+      "generateClientClasses": false,
+      "generateClientInterfaces": false,
+      "wrapDtoExceptions": false,
+      "useTransformOptionsMethod": false,
+      "useTransformResultMethod": false,
+      "generateDtoTypes": true,
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "markOptionalProperties": true,
+      "typeStyle": "Interface",
+      "generateDefaultValues": true,
+      "excludedTypeNames": [],
+      "output": "Types/models.ts"
+    }
+  }
+}

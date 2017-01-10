@@ -5,7 +5,7 @@ using Songbook.Core;
 namespace Songbook.Controllers
 {
     [Route("api/[controller]")]
-    public class SongController : Controller
+    public class SongsController : Controller
     {
         [HttpGet("[action]")]
         public IEnumerable<Song> All()

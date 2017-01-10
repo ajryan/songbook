@@ -17,7 +17,8 @@
     },
     "Songbook": {
       "commandName": "Project",
-      "launchBrowser":  true,
+      "launchBrowser": true,
+      "launchUrl": "/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

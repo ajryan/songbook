@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
@@ -8,9 +8,5 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NETStandard.Library" Version="1.6" />
-    <PackageReference Include="NSwag.MSBuild" Version="8.5.0" />
   </ItemGroup>
-  <Target Name="RunNSwag" AfterTargets="Build">
-    <Exec Command="$(NSwagExe) run $(SolutionDir)\songbook.nswag" />
-  </Target>
 </Project>

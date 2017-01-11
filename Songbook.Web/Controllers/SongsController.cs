@@ -29,9 +29,41 @@ namespace Songbook.Controllers
         }
 
         [HttpGet("{songId}", Name="GetSong")]
-        public Song GetById(int songId)
+        public IActionResult GetById(int songId)
         {
-            return _songList.FirstOrDefault(song => song.Id == songId);
+            var song = _songList.FirstOrDefault(s => s.Id == songId);
+
+            return song == null ? (IActionResult) NotFound()
+                                : new ObjectResult(song);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Song song)
+        {
+            if (song == null)
+                return BadRequest();
+
+            song.Id = _songList.Count + 1;
+            _songList.Add(song);
+
+            return CreatedAtRoute("GetSong", new { songId = song.Id }, song);
+        }
+
+        [HttpPut("{songId}")]
+        public IActionResult Update(int songId, [FromBody] Song song)
+        {
+            if (song?.Id != songId)
+                return BadRequest();
+
+            var existingSong = _songList.FirstOrDefault(s => s.Id == songId);
+
+            if (existingSong == null)
+                return NotFound();
+
+            _songList.Remove(existingSong);
+            _songList.Insert(song.Id - 1, song);
+
+            return new NoContentResult();
         }
     }
 }

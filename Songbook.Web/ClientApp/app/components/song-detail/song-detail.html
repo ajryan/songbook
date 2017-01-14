@@ -1,15 +1,30 @@
 <template>
-    <h1>${ song.Name }</h1>
-
-    <p if.bind="!song"><em>Loading...</em></p>
+    <require from="./song-detail.css"></require>
+    <div class="btn-toolbar">
+        <div class="btn-group pull-right">
+            <button click.delegate="save()" class="btn btn-primary btn-raised">Save</button>
+            <button click.delegate="delete()" class="btn btn-danger">Delete</button>
+        </div>
+        <h2 textcontent.bind="song.Name" contenteditable="true"></h2>
+    </div>
+    <p if.bind="!song"><em>Loading...</em>
+    </p>
 
     <div if.bind="song">
-        <ul class="list-group">
-            <li repeat.for="lyric of song.Lyrics" class="list-group-item">
-                <h4 class="list-group-item-heading" textcontent.bind="lyric.Name" contenteditable="true"></h4>
-                <p class="list-group-item-text">${ lyric.Words }</p>
-            </li>
-        </ul>
-        <button type="button" class="btn btn-primary btn-raised" click.delegate="save()">Save</button>
+        <div repeat.for="lyric of song.Lyrics" class="panel">
+            <div class="panel-heading clearfix">
+                <h3 textcontent.bind="lyric.Name" contenteditable="true" class="lyric-head pull-left"></h3>
+                <div class="btn-group pull-right">
+                    <button click.delegate="moveLyricUp(lyric)" type="button" class="btn btn-sm"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                    <button click.delegate="moveLyricDown(lyric)" type="button" class="btn btn-sm"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    <button click.delegate="deleteLyric(lyric)" type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            <div textcontent.bind="lyric.Words" contenteditable="true" class="panel-body"></div>
+            <!-- todo: style xs button, pull out align into ,lyric-foot -->
+        </div>
+        <div class="btn-group pull-right">
+            <button click.delegate="addLyric()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Lyric</button>
+        </div>
     </div>
 </template>

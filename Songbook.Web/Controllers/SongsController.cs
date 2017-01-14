@@ -8,9 +8,9 @@ namespace Songbook.Controllers
     [Route("api/[controller]")]
     public class SongsController : Controller
     {
-        private readonly List<Song> _songList;
+        private static readonly List<Song> _songList;
 
-        public SongsController()
+        static SongsController()
         {
             var song1 = new Song { Id = 1, Name = "Magazines" };
             song1.Lyrics.Add(new Lyric { Name = "Verse 1", Words = "I left home at age thirteen. Joined a crew selling magazines."});
@@ -38,7 +38,7 @@ namespace Songbook.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Song song)
+        public IActionResult Create([FromBody] Song song)
         {
             if (song == null)
                 return BadRequest();
@@ -62,6 +62,15 @@ namespace Songbook.Controllers
 
             _songList.Remove(existingSong);
             _songList.Insert(song.Id - 1, song);
+
+            return new NoContentResult();
+        }
+
+        [HttpDelete("{songId}")]
+        public IActionResult Delete(int songId)
+        {
+            var deleteSong = _songList.FirstOrDefault(s => s.Id == songId);
+            _songList.Remove(deleteSong);
 
             return new NoContentResult();
         }

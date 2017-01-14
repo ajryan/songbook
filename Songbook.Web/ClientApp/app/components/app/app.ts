@@ -7,8 +7,8 @@ export class App {
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = (<any>window).Globals.hostingEnvironment;
     config.map([
-      { route: '',          moduleId: '../no-selection/no-selection', title: 'Select' },
-      { route: 'songs/:id', moduleId: '../song-detail/song-detail' }
+      { route: '',          moduleId: '../no-selection/no-selection', title: 'Select', name: 'no-selection' },
+      { route: 'songs/:id', moduleId: '../song-detail/song-detail',   titls: 'Songs',  name: 'songs' }
     ]);
 
     this.router = router;
@@ -22,5 +22,9 @@ export namespace Messages {
 
   export class SongViewed {
     constructor(public Song: Songbook.Core.Song) {}
+  }
+
+  export class SongDeleted {
+    constructor(public SongId: number) { }
   }
 }

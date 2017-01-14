@@ -1,27 +1,41 @@
 <template>
     <require from="../progress.html"></require>
-    <div if.bind="!songs">
-        <progress><progress>
-    </div>
     <div if.bind="songs">
-        <h2 class="visible-md-block visible-lg-block">Songs</h2>
-        <ul class="nav nav-pills nav-stacked visible-md-block visible-lg-block">
+        <div class="btn-toolbar hidden-xs">
+            <div class="title">
+                <h2>Songs</h2>
+            </div>
+            <div class="btn-group btn-group-sm">
+                <a click.delegate="addSong()" class="btn btn-danger btn-fab"><i class="material-icons">note_add</i></a>
+            </div>
+        </div>
+        <ul class="nav nav-pills nav-stacked hidden-xs">
             <li repeat.for="song of songs" class="${song.Id === $parent.selectedId ? 'active' : ''}">
                 <a href="#/songs/${song.Id}" click.delegate="$parent.select(song)">
                     ${ song.Name }
                 </a>
             </li>
         </ul>
-    
-        <div class="dropdown visible-sm-block visible-xs-block">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                Songs <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li repeat.for="song of songs">
-                    <a href="#/songs/${song.Id}" click.delegate="$parent.select(song)">${ song.Name }</a>
-                </li>
-            </ul>
+
+        <div class="btn-toolbar visible-xs-block">
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Songs <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li repeat.for="song of songs">
+                            <a href="#/songs/${song.Id}" click.delegate="$parent.select(song)">${ song.Name }</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-group btn-group-sm">
+                <a click.delegate="addSong()" class="btn btn-danger btn-fab"><i class="material-icons">note_add</i></a>
+            </div>
         </div>
+    </div>
+    <div if.bind="!songs || isRequesting">
+        <progress><progress>
     </div>
 </template>

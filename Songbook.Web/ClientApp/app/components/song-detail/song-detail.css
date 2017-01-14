@@ -1,0 +1,7 @@
+﻿[contenteditable]:hover:not(:focus) {
+    outline: 1px dotted #99d;
+}
+
+.lyric-head {
+    margin-top: 10px;
+}

@@ -2,14 +2,15 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Messages } from '../app/app'
+import { Messages } from '../app/app';
+import { SortStringValueConverter } from '../../valueconverters/sort-string';
 
 import Song = Songbook.Core.Song;
 
 @inject(EventAggregator, HttpClient, Router)
 export class SongsList {
   public songs: Song[];
-  public selectedId: number;
+  public selectedId: string;
   public isRequesting: boolean;
 
   constructor(
@@ -22,6 +23,7 @@ export class SongsList {
       (msg: Messages.SongUpdated) => {
         var updatedSong = this.songs.filter(s => s.Id === msg.Song.Id)[0];
         Object.assign(updatedSong, msg.Song);
+        this.songs.sort((a, b) => SortStringValueConverter.stringComparisonOrdinalIgnoreCase(a.Name, b.Name));
       });
 
     ea.subscribe(Messages.SongDeleted,
@@ -31,12 +33,17 @@ export class SongsList {
         this.songs.splice(deletedIndex, 1);
 
         if (this.selectedId === msg.SongId) {
-          if (deletedIndex >= this.songs.length)
-            this.selectedId = this.songs[this.songs.length - 1].Id;
-          else if (this.songs.length > 0)
-            this.selectedId = this.songs[deletedIndex].Id;
-          else
+          if (this.songs.length > 0) {
+            if (deletedIndex >= this.songs.length)
+              this.selectedId = this.songs[this.songs.length - 1].Id;
+            else
+              this.selectedId = this.songs[deletedIndex].Id;
+
+            router.navigateToRoute('songs', { id: this.selectedId });
+          } else {
+            this.selectedId = null;
             router.navigateToRoute('no-selection');
+          }
         }
       });
 
@@ -50,7 +57,7 @@ export class SongsList {
 
   public addSong() {
     var newSong = {
-      Id: 0,
+      Id: null,
       Name: "New Song",
       Lyrics: []
     };

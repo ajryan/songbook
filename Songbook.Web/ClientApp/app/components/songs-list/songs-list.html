@@ -1,4 +1,5 @@
 <template>
+    <require from="../../valueconverters/sort-string"></require>
     <require from="../progress.html"></require>
     <div if.bind="songs">
         <div class="btn-toolbar hidden-xs">
@@ -10,7 +11,7 @@
             </div>
         </div>
         <ul class="nav nav-pills nav-stacked hidden-xs">
-            <li repeat.for="song of songs" class="${song.Id === $parent.selectedId ? 'active' : ''}">
+            <li repeat.for="song of songs | sortString:'Name':'ASCENDING'" class="${song.Id === $parent.selectedId ? 'active' : ''}">
                 <a href="#/songs/${song.Id}" click.delegate="$parent.select(song)">
                     ${ song.Name }
                 </a>

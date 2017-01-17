@@ -18,7 +18,7 @@ export class SongDetail {
   }
 
   public activate(params: SongParams) {
-    return this.http.fetch('/api/Songs/' + params.id)
+    return this.http.fetch(`/api/Songs/${params.id}`)
       .then(result => result.json() as Promise<Song>)
       .then(data => {
         this.song = data;
@@ -28,8 +28,8 @@ export class SongDetail {
 
   public addLyric() {
     this.song.Lyrics.push({
-      Name: "Verse " + (this.song.Lyrics.length + 1),
-      Words: "Add some words here"
+      Name: `Verse ${this.song.Lyrics.length + 1}`,
+      Words: 'Add some words here'
     });
   }
 
@@ -68,7 +68,7 @@ export class SongDetail {
     var deletedId = this.song.Id;
 
     this.http.fetch(
-      '/api/Songs/' + deletedId,
+      `/api/Songs/${deletedId}`,
       {
         method: 'delete'
       }).then(() => {
@@ -77,7 +77,7 @@ export class SongDetail {
   }
 
   private createOrUpdate(): Promise<any> {
-    var isCreate = this.song.Id === 0;
+    var isCreate = (this.song.Id === null);
 
     if (isCreate) {
       return this.http.fetch(
@@ -88,7 +88,7 @@ export class SongDetail {
         .then(data => this.song = data);
     } else {
       return this.http.fetch(
-        '/api/Songs/' + this.song.Id, {
+        `/api/Songs/${this.song.Id}`, {
           method: 'put',
           body: json(this.song)
         });

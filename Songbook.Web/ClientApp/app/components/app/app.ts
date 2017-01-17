@@ -25,6 +25,6 @@ export namespace Messages {
   }
 
   export class SongDeleted {
-    constructor(public SongId: number) { }
+    constructor(public SongId: string) { }
   }
 }

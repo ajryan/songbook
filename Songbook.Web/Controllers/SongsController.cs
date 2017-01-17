@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,10 @@ namespace Songbook.Controllers
 
         static SongsController()
         {
-            var song1 = new Song { Id = 1, Name = "Magazines" };
+            var song1 = new Song { Id = Guid.NewGuid().ToString(), Name = "Magazines" };
             song1.Lyrics.Add(new Lyric { Name = "Verse 1", Words = "I left home at age thirteen. Joined a crew selling magazines."});
 
-            var song2 = new Song { Id = 2, Name = "Heavy Enough" };
+            var song2 = new Song { Id = Guid.NewGuid().ToString(), Name = "Heavy Enough" };
             song2.Lyrics.Add(new Lyric { Name = "Verse 1", Words = "Dirt still on my hands, I came down from the fields. Dirt still on my hands, I came down from the fields. I know that rock's heavy enough. My baby won't get stealed."});
 
             _songList = new List<Song> { song1, song2 };
@@ -29,7 +30,7 @@ namespace Songbook.Controllers
         }
 
         [HttpGet("{songId}", Name="GetSong")]
-        public IActionResult GetById(int songId)
+        public IActionResult GetById(string songId)
         {
             var song = _songList.FirstOrDefault(s => s.Id == songId);
 
@@ -43,14 +44,14 @@ namespace Songbook.Controllers
             if (song == null)
                 return BadRequest();
 
-            song.Id = _songList.Count + 1;
+            song.Id = Guid.NewGuid().ToString();
             _songList.Add(song);
 
             return CreatedAtRoute("GetSong", new { songId = song.Id }, song);
         }
 
         [HttpPut("{songId}")]
-        public IActionResult Update(int songId, [FromBody] Song song)
+        public IActionResult Update(string songId, [FromBody] Song song)
         {
             if (song?.Id != songId)
                 return BadRequest();
@@ -61,13 +62,13 @@ namespace Songbook.Controllers
                 return NotFound();
 
             _songList.Remove(existingSong);
-            _songList.Insert(song.Id - 1, song);
+            _songList.Add(song);
 
             return new NoContentResult();
         }
 
         [HttpDelete("{songId}")]
-        public IActionResult Delete(int songId)
+        public IActionResult Delete(string songId)
         {
             var deleteSong = _songList.FirstOrDefault(s => s.Id == songId);
             _songList.Remove(deleteSong);

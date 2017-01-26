@@ -37,9 +37,7 @@ export class SongDetail {
     var lyricIndex = this.song.Lyrics.indexOf(lyric);
 
     if (lyricIndex > 0) {
-      var lyricBefore = this.song.Lyrics[lyricIndex - 1];
-      this.song.Lyrics[lyricIndex - 1] = lyric;
-      this.song.Lyrics[lyricIndex] = lyricBefore;
+      this.moveLyric(lyricIndex, lyricIndex - 1);
     }
   }
 
@@ -47,10 +45,12 @@ export class SongDetail {
     var lyricIndex = this.song.Lyrics.indexOf(lyric);
 
     if (lyricIndex < (this.song.Lyrics.length - 1)) {
-      var lyricAfter = this.song.Lyrics[lyricIndex + 1];
-      this.song.Lyrics[lyricIndex + 1] = lyric;
-      this.song.Lyrics[lyricIndex] = lyricAfter;
+      this.moveLyric(lyricIndex, lyricIndex + 1);
     }
+  }
+
+  private moveLyric(fromIndex: number, toIndex: number) {
+    this.song.Lyrics.splice(toIndex, 0, this.song.Lyrics.splice(fromIndex, 1)[0]);
   }
 
   public deleteLyric(lyric: Lyric) {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Songbook.Core;
@@ -20,6 +21,10 @@ namespace Songbook.Controllers
 
             var repo = new SongRepository();
 
+            var allSongs = repo.GetAll().Result;
+            if (allSongs.Any())
+                return;
+
             repo.CreateSong(song1).Wait();
             repo.CreateSong(song2).Wait();
         }
@@ -31,9 +36,9 @@ namespace Songbook.Controllers
         }
 
         [HttpGet("{songId}", Name="GetSong")]
-        public IActionResult GetById(string songId)
+        public async Task<IActionResult> GetById(string songId)
         {
-            var song = new SongRepository().GetSong(songId);
+            var song = await new SongRepository().GetSong(songId);
 
             return song == null ? (IActionResult) NotFound()
                                 : new ObjectResult(song);

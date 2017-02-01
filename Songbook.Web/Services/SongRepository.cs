@@ -30,15 +30,15 @@ namespace Songbook.Web.Services
             }
         }
 
-        public Song GetSong(string songId)
+        public async Task<Song> GetSong(string songId)
         {
             using (var client = GetDocumentClient())
             {
                 try
                 {
-                    var query = client.CreateDocumentQuery<Song>(CollectionUri).Where(aDoc => aDoc.Id == songId);
+                    var doc = await client.ReadDocumentAsync(CreateSongDocumentUri(songId));
 
-                    return query.AsEnumerable().FirstOrDefault();
+                    return (Song)(dynamic)doc.Resource;
                 }
                 catch (DocumentClientException e)
                 {

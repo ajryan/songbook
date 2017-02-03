@@ -31,6 +31,9 @@
     <ProjectReference Include="..\Songbook.Core\Songbook.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-preview4-final" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
+  <PropertyGroup>
+    <UserSecretsId>songbook</UserSecretsId>
+  </PropertyGroup>
 </Project>

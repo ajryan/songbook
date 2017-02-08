@@ -1,16 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Microsoft.Extensions.Options;
 using Songbook.Core;
 
 namespace Songbook.Web.Services
 {
+    public class DocumentDbOptions
+    {
+        public string ServiceEndpoint { get; set; }
+        public string AuthKey { get; set; }
+        public string DatabaseId { get; set; }
+        public string CollectionId { get; set; }
+    }
+
     public class SongRepository
     {
+        private readonly DocumentDbOptions _options;
+
+        public SongRepository(IOptions<DocumentDbOptions> options)
+        {
+            _options = options.Value;
+        }
+
         public async Task<IEnumerable<Song>> GetAll()
         {
             // TODO: appsettings.json
@@ -74,14 +89,15 @@ namespace Songbook.Web.Services
             }
         }
 
-        private static Uri CollectionUri => UriFactory.CreateDocumentCollectionUri("songbook", "songs");
-        private static Uri CreateSongDocumentUri(string songId) => UriFactory.CreateDocumentUri("songbook", "songs", songId);
+        private Uri DatabaseUri => UriFactory.CreateDatabaseUri(_options.DatabaseId);
+        private Uri CollectionUri => UriFactory.CreateDocumentCollectionUri(_options.DatabaseId, _options.CollectionId);
+        private Uri CreateSongDocumentUri(string songId) => UriFactory.CreateDocumentUri(_options.DatabaseId, _options.CollectionId, songId);
 
-        private static DocumentClient GetDocumentClient()
+        private DocumentClient GetDocumentClient()
         {
             var client = new DocumentClient(
-                new Uri("https://localhost:8081/"),
-                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                new Uri(_options.ServiceEndpoint),
+                _options.AuthKey,
                 new ConnectionPolicy { EnableEndpointDiscovery = false });
 
             CreateDatabaseIfNotExists(client).Wait();
@@ -90,22 +106,22 @@ namespace Songbook.Web.Services
             return client;
         }
 
-        private static async Task CreateDatabaseIfNotExists(DocumentClient client)
+        private async Task CreateDatabaseIfNotExists(DocumentClient client)
         {
             try
             {
-                await client.ReadDatabaseAsync(UriFactory.CreateDatabaseUri("songbook"));
+                await client.ReadDatabaseAsync(DatabaseUri);
             }
             catch (DocumentClientException e)
             {
                 if (e.StatusCode != System.Net.HttpStatusCode.NotFound)
                     throw;
 
-                await client.CreateDatabaseAsync(new Database { Id = "songbook" });
+                await client.CreateDatabaseAsync(new Database { Id = _options.DatabaseId });
             }
         }
 
-        private static async Task CreateCollectionIfNotExists(DocumentClient client)
+        private async Task CreateCollectionIfNotExists(DocumentClient client)
         {
             try
             {
@@ -117,8 +133,8 @@ namespace Songbook.Web.Services
                     throw;
 
                 await client.CreateDocumentCollectionAsync(
-                    UriFactory.CreateDatabaseUri("songbook"), 
-                    new DocumentCollection { Id = "songs" },
+                    DatabaseUri, 
+                    new DocumentCollection { Id = _options.CollectionId },
                     new RequestOptions { OfferThroughput = 1000 });
             }
         }

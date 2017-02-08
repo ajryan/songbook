@@ -65,7 +65,7 @@ export class SongDetail {
   }
 
   public delete() {
-    var deletedId = this.song.Id;
+    var deletedId = this.song.id;
 
     this.http.fetch(
       `/api/Songs/${deletedId}`,
@@ -77,7 +77,7 @@ export class SongDetail {
   }
 
   private createOrUpdate(): Promise<any> {
-    var isCreate = (this.song.Id === null);
+    var isCreate = (this.song.id === null);
 
     if (isCreate) {
       return this.http.fetch(
@@ -88,7 +88,7 @@ export class SongDetail {
         .then(data => this.song = data);
     } else {
       return this.http.fetch(
-        `/api/Songs/${this.song.Id}`, {
+        `/api/Songs/${this.song.id}`, {
           method: 'put',
           body: json(this.song)
         });

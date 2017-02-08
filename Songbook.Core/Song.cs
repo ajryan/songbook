@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Songbook.Core
 {
     public class Song
     {
-        public string Id { get; set; }
+        public string id { get; set; }
+
         public string Name { get; set; }
         public List<Lyric> Lyrics { get; }
         public List<Progression> Progressions { get;  }

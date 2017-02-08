@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Songbook.Core;
@@ -11,34 +10,23 @@ namespace Songbook.Controllers
     [Route("api/[controller]")]
     public class SongsController : Controller
     {
-        static SongsController()
+        private readonly SongRepository _repository;
+
+        public SongsController(SongRepository repository)
         {
-            var song1 = new Song { Id = Guid.NewGuid().ToString(), Name = "Magazines" };
-            song1.Lyrics.Add(new Lyric { Name = "Verse 1", Words = "I left home at age thirteen. Joined a crew selling magazines."});
-
-            var song2 = new Song { Id = Guid.NewGuid().ToString(), Name = "Heavy Enough" };
-            song2.Lyrics.Add(new Lyric { Name = "Verse 1", Words = "Dirt still on my hands, I came down from the fields. Dirt still on my hands, I came down from the fields. I know that rock's heavy enough. My baby won't get stealed."});
-
-            var repo = new SongRepository();
-
-            var allSongs = repo.GetAll().Result;
-            if (allSongs.Any())
-                return;
-
-            repo.CreateSong(song1).Wait();
-            repo.CreateSong(song2).Wait();
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Song>> GetAll()
         {
-            return await new SongRepository().GetAll();
+            return await _repository.GetAll();
         }
 
         [HttpGet("{songId}", Name="GetSong")]
         public async Task<IActionResult> GetById(string songId)
         {
-            var song = await new SongRepository().GetSong(songId);
+            var song = await _repository.GetSong(songId);
 
             return song == null ? (IActionResult) NotFound()
                                 : new ObjectResult(song);
@@ -50,19 +38,19 @@ namespace Songbook.Controllers
             if (song == null)
                 return BadRequest();
 
-            song.Id = Guid.NewGuid().ToString();
-            await new SongRepository().CreateSong(song);
+            song.id = Guid.NewGuid().ToString();
+            await _repository.CreateSong(song);
 
-            return CreatedAtRoute("GetSong", new { songId = song.Id }, song);
+            return CreatedAtRoute("GetSong", new { songId = song.id }, song);
         }
 
         [HttpPut("{songId}")]
         public async Task<IActionResult> Update(string songId, [FromBody] Song song)
         {
-            if (song?.Id != songId)
+            if (song?.id != songId)
                 return BadRequest();
 
-            await new SongRepository().UpdateSong(songId, song);
+            await _repository.UpdateSong(songId, song);
 
             return new NoContentResult();
         }
@@ -70,7 +58,7 @@ namespace Songbook.Controllers
         [HttpDelete("{songId}")]
         public async Task<IActionResult> Delete(string songId)
         {
-            await new SongRepository().DeleteSong(songId);
+            await _repository.DeleteSong(songId);
 
             return new NoContentResult();
         }
